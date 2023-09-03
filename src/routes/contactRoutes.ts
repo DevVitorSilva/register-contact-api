@@ -1,17 +1,17 @@
-import { Router, Response, Request } from "express";
+import { Router } from "express";
+import { deleteContact, getAllContacts, getOneContact, registerContact, updateContact } from "../controllers/contact";
 
 const router = Router()
 
-router.get("/all-contacts", (_, res: Response)=>{
-    res.json({msg: "Hello World"})
-})
+router.get("/all-contacts", getAllContacts)
 
-router.post("/register-contact", (req: Request, res: Response) => {
-    const {name, contact} = req.body
-    console.log(name)
-    console.log(contact);
-    res.json({name,contact})
-})
+router.get("/contact/:id", getOneContact)
+
+router.post("/register-contact", registerContact)
+
+router.put("/update-contact", updateContact)
+
+router.delete("/delete-contact", deleteContact)
 
 export {
     router
