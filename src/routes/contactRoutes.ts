@@ -11,7 +11,7 @@ router.post("/register-contact", registerContact)
 
 router.put("/update-contact", updateContact)
 
-router.delete("/delete-contact", deleteContact)
+router.delete("/delete-contact/:id", deleteContact)
 
 export {
     router
