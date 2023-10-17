@@ -7,8 +7,8 @@ interface IContact {
 
 const contactSchema = new Schema<IContact>(
     {
-        name: {type: String, required: true, minlength: 3},
-        contact: {type: Number, required: true, minlength: 8}
+        name: { type: String, required: true, minlength: 3 },
+        contact: { type: Number, required: true, minlength: 3 }
     }
 )
 

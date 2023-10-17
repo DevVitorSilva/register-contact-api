@@ -4,7 +4,7 @@ import { Contact } from "../model/Contact";
 export async function getAllContacts(_: any, res: Response) {
     try {
         const allContacts = await Contact.find()
-        res.status(200).json({ allContacts })
+        res.status(200).json(allContacts)
 
     } catch (error) {
         console.log(error)
@@ -16,7 +16,7 @@ export async function getOneContact(req: Request, res: Response) {
     try {
         const { id } = req.params
         const contact = await Contact.findById(id)
-        res.status(200).json({ contact })
+        res.status(200).json(contact)
     } catch (error) {
         console.log(error)
         res.status(404).json({ error: "Not found" })
@@ -34,10 +34,28 @@ export async function registerContact(req: Request, res: Response) {
         return res.status(400).json({ error: "Bad resquest, 'contact' no is number" })
     }
 
+    if (contact.toString().length < 3) {
+        return res.status(428).json(
+            {
+                error: 'number does not meet the requirements',
+                requirements: 'name must have at least 3 characters'
+            }
+        )
+    }
+
+    if (name.length < 3) {
+        return res.status(428).json(
+            {
+                error: 'name does not meet the requirements',
+                requirements: 'name must have at least 3 characters'
+            }
+        )
+    }
+
     try {
-        const newContact = new Contact({ name, contact })
+        const newContact = new Contact({ name: name.trim(), contact })
         await newContact.save()
-        res.status(201).json({ msg: "contact created successfully" })
+        res.status(201).json({ success: "contact created successfully" })
     } catch (error) {
         console.log(`Error saving a new contact:\n${error}`);
         res.status(400).json({ error: "Bad request" })
@@ -69,7 +87,7 @@ export async function deleteContact(req: Request, res: Response) {
 
     try {
         const deletedContact = await Contact.findByIdAndDelete(id)
-        res.status(200).json({ deletedContact })
+        res.status(200).json({ success: 'contact deleted successfully' })
     } catch (error) {
         console.log(error);
     }
